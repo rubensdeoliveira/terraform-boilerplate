@@ -11,7 +11,7 @@ variable "region" {
 }
 
 variable "postgres_version" {
-  description = "Região do Google Cloud Platform"
+  description = "Versão do banco de dados"
 }
 
 variable "postgres_db" {
@@ -38,6 +38,10 @@ variable "cloud_run_port" {
   description = "Conector de rede VPC"
   default     = 3000
   type        = number
+}
+
+variable "redis_version" {
+  description = "Versão do banco de dados"
 }
 
 variable "vpc_subnets" {

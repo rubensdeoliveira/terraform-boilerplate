@@ -7,6 +7,10 @@ module "storage" {
 }
 
 # Firestore
+module "firestore" {
+  source       = "./modules/firestore"
+  service_name = "${var.project_name}-firestore"
+}
 
 # VPC and subnets
 module "vpc" {
@@ -32,6 +36,16 @@ module "sql" {
 }
 
 # Memorystore for Redis
+module "redis" {
+  depends_on         = [module.vpc]
+  source             = "./modules/redis"
+  service_name       = "${var.project_name}-redis"
+  service_region     = var.region
+  is_prd_enviroment  = terraform.workspace == var.production_workspace_name
+  redis_version      = var.redis_version
+  vpc_id             = module.vpc.vpc_id
+  redis_display_name = "${var.project_name}-redis"
+}
 
 # Cloud Run (backend)
 module "run" {
