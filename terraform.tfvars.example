@@ -1,0 +1,43 @@
+project_id                = "projeto-id"
+project_name              = "projeto-nome"
+region                    = "us-central1"
+postgres_version          = "POSTGRES_13"
+postgres_db               = "db"
+postgres_user             = "user"
+postgres_password         = "password"
+production_workspace_name = "prd"
+docker_image = gcr.io/projeto-id/projeto-nome
+cloud_run_port            = 3000
+env_vars_back = [
+  {
+    name  = "JWT_PRIVATE_KEY"
+    value = "ds"
+  },
+  {
+    name  = "JWT_PUBLIC_KEY"
+    value = "dfs"
+  },
+  {
+    name  = "JWT_TOKEN_EXPIRES_IN"
+    value = "30d"
+  },
+  {
+    name  = "JWT_REFRESH_TOKEN_EXPIRES_IN"
+    value = "1d"
+  },
+  {
+    name  = "JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS"
+    value = 30
+  },
+]
+env_vars_front = []
+vpc_subnets = [
+  {
+    name = "sql-subnet"
+    cidr = "10.1.1.0/28"
+  },
+  {
+    name = "memorystory-subnet"
+    cidr = "10.1.2.0/28"
+  }
+]
