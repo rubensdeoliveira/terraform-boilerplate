@@ -56,7 +56,7 @@ module "run_backend" {
   docker_image_prd  = "gcr.io/flow-roll-424400/flow-roll-backend-prd"
   subnet1_connector = module.vpc.subnet1_connector
   is_prd_enviroment = terraform.workspace == var.production_workspace_name
-  port              = 3000
+  port              = 3333
   env_vars = concat(var.env_vars_back, [
     {
       name  = "DATABASE_URL"
@@ -75,7 +75,7 @@ module "run_frontend" {
   docker_image_prd  = "gcr.io/flow-roll-424400/flow-roll-frontend-prd"
   subnet1_connector = module.vpc.subnet1_connector
   is_prd_enviroment = terraform.workspace == var.production_workspace_name
-  port              = 5000
+  port              = 3000
   env_vars          = var.env_vars_front
 }
 
