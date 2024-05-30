@@ -3,6 +3,11 @@ variable "service_name" {
   type        = string
 }
 
+variable "service_region" {
+  description = "The region where the network will be created"
+  type        = string
+}
+
 variable "subnets" {
   description = "A list of subnets"
   type = list(object({
@@ -11,12 +16,3 @@ variable "subnets" {
   }))
 }
 
-variable "service_region" {
-  description = "The region where the network will be created"
-  type        = string
-}
-
-variable "project_id" {
-  description = "The project ID"
-  type        = string
-}

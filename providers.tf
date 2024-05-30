@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "flow-roll-bucket-tfstate"
+    bucket = "flow-roll-bucket-state"
     prefix = "terraform"
   }
 }
@@ -16,13 +16,13 @@ provider "google" {
   region  = var.region
 }
 
-resource "google_storage_bucket" "terraform_state" {
-  name                     = "flow-roll-bucket-tfstate"
-  location                 = var.region
-  force_destroy            = false
-  public_access_prevention = "enforced"
+# resource "google_storage_bucket" "terraform_state" {
+#   name                     = "flow-roll-bucket-tfstate"
+#   location                 = var.region
+#   force_destroy            = false
+#   public_access_prevention = "enforced"
 
-  versioning {
-    enabled = true
-  }
-}
+#   versioning {
+#     enabled = true
+#   }
+# }

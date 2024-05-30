@@ -6,7 +6,11 @@ variable "service_region" {
   description = "Região do Google Cloud Platform"
 }
 
-variable "docker_image" {
+variable "docker_image_stg" {
+  description = "Imagem Docker a ser utilizada no Cloud Run"
+}
+
+variable "docker_image_prd" {
   description = "Imagem Docker a ser utilizada no Cloud Run"
 }
 

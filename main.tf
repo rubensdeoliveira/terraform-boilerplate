@@ -18,7 +18,6 @@ module "vpc" {
   service_name   = "${var.project_name}-vpc"
   service_region = var.region
   subnets        = var.vpc_subnets
-  project_id     = var.project_id
 }
 
 # Cloud SQL (postgres)
@@ -48,15 +47,16 @@ module "redis" {
 }
 
 # Cloud Run (backend)
-module "run" {
+module "run_backend" {
   depends_on        = [module.sql]
   source            = "./modules/run"
   service_name      = "${var.project_name}-backend"
   service_region    = var.region
-  docker_image      = var.docker_image
+  docker_image_stg  = "gcr.io/flow-roll-424400/flow-roll-backend-stg"
+  docker_image_prd  = "gcr.io/flow-roll-424400/flow-roll-backend-prd"
   subnet1_connector = module.vpc.subnet1_connector
   is_prd_enviroment = terraform.workspace == var.production_workspace_name
-  port              = var.cloud_run_port
+  port              = 3000
   env_vars = concat(var.env_vars_back, [
     {
       name  = "DATABASE_URL"
@@ -66,11 +66,17 @@ module "run" {
 }
 
 # Cloud Run (frontend)
-# module "run" {
-#   source         = "./modules/run"
-#   service_name   = "${var.project_name}-backend"
-#   service_region = var.region
-#   docker_image   = "gcr.io/${var.project_id}/${var.project_name}-container-${terraform.workspace}"
-# }
+module "run_frontend" {
+  depends_on        = [module.run_backend]
+  source            = "./modules/run"
+  service_name      = "${var.project_name}-frontend"
+  service_region    = var.region
+  docker_image_stg  = "gcr.io/flow-roll-424400/flow-roll-frontend-stg"
+  docker_image_prd  = "gcr.io/flow-roll-424400/flow-roll-frontend-prd"
+  subnet1_connector = module.vpc.subnet1_connector
+  is_prd_enviroment = terraform.workspace == var.production_workspace_name
+  port              = 5000
+  env_vars          = var.env_vars_front
+}
 
 # Google Cloud Monitoring

@@ -30,16 +30,6 @@ variable "production_workspace_name" {
   description = "Nome do workspace de produção"
 }
 
-variable "docker_image" {
-  description = "Imagem Docker a ser utilizada no Cloud Run"
-}
-
-variable "cloud_run_port" {
-  description = "Conector de rede VPC"
-  default     = 3000
-  type        = number
-}
-
 variable "redis_version" {
   description = "Versão do banco de dados"
 }

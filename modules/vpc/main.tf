@@ -4,7 +4,7 @@ resource "google_compute_network" "vpc" {
 
 resource "google_compute_subnetwork" "subnetwork" {
   count         = length(var.subnets)
-  name          = element(var.subnets, count.index).name
+  name          = "${element(var.subnets, count.index).name}-${terraform.workspace}"
   ip_cidr_range = element(var.subnets, count.index).cidr
   region        = var.service_region
   network       = google_compute_network.vpc.name
@@ -32,7 +32,7 @@ resource "google_compute_firewall" "default" {
 }
 
 resource "google_compute_global_address" "private_ip_address" {
-  name          = "private-ip-address"
+  name          = "private-ip-address-${terraform.workspace}"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
@@ -46,7 +46,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 }
 
 resource "google_vpc_access_connector" "subnet1_connector" {
-  name   = "subnet1-connector"
+  name   = "subnet1-connector-${terraform.workspace}"
   region = var.service_region
   subnet {
     name = element(google_compute_subnetwork.subnetwork.*.name, 0)
@@ -54,7 +54,7 @@ resource "google_vpc_access_connector" "subnet1_connector" {
 }
 
 resource "google_vpc_access_connector" "subnet2_connector" {
-  name   = "subnet2-connector"
+  name   = "subnet2-connector-${terraform.workspace}"
   region = var.service_region
   subnet {
     name = element(google_compute_subnetwork.subnetwork.*.name, 1)

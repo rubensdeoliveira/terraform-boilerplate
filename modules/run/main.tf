@@ -6,11 +6,12 @@ resource "google_cloud_run_service" "run" {
     metadata {
       annotations = {
         "run.googleapis.com/vpc-access-connector" : var.subnet1_connector
+        "run.googleapis.com/vpc-access-egress" : "private-ranges-only"
       }
     }
     spec {
       containers {
-        image = "${var.docker_image}:latest"
+        image = var.is_prd_enviroment ? "${var.docker_image_prd}:latest" : "${var.docker_image_stg}:latest"
 
         resources {
           limits = {
