@@ -1,31 +1,31 @@
 resource "google_cloud_run_service" "run" {
-  name     = "${var.service_name}-${terraform.workspace}"
-  location = var.service_region
+  name     = var.cloud_run_name
+  location = var.cloud_run_location
 
   template {
     metadata {
       annotations = {
-        "run.googleapis.com/vpc-access-connector" : var.subnet1_connector
+        "run.googleapis.com/vpc-access-connector" : var.cloud_run_subnet1_connector
         "run.googleapis.com/vpc-access-egress" : "private-ranges-only"
       }
     }
     spec {
       containers {
-        image = var.is_prd_enviroment ? "${var.docker_image_prd}:latest" : "${var.docker_image_stg}:latest"
+        image = "${var.cloud_run_docker_image}:latest"
 
         resources {
           limits = {
-            memory = var.is_prd_enviroment ? "512Mi" : "256Mi"
-            cpu    = var.is_prd_enviroment ? "2" : "1"
+            memory = var.cloud_run_memory
+            cpu    = var.cloud_run_cpu
           }
         }
 
         ports {
-          container_port = var.port
+          container_port = var.cloud_run_port
         }
 
         dynamic "env" {
-          for_each = var.env_vars
+          for_each = var.cloud_run_env
           content {
             name  = env.value.name
             value = env.value.value

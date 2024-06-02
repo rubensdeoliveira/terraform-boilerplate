@@ -8,7 +8,7 @@ postgres_password         = "password"
 production_workspace_name = "prd"
 docker_image = gcr.io/projeto-id/projeto-nome
 cloud_run_port            = 3000
-env_vars_back = [
+env_back = [
   {
     name  = "JWT_PRIVATE_KEY"
     value = "ds"
@@ -30,7 +30,7 @@ env_vars_back = [
     value = 30
   },
 ]
-env_vars_front = []
+env_front = []
 vpc_subnets = [
   {
     name = "sql-subnet"

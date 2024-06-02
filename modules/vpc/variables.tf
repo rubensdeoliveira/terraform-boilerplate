@@ -1,14 +1,12 @@
-variable "service_name" {
+variable "vpc_name" {
   description = "The name of the VPC service"
-  type        = string
 }
 
-variable "service_region" {
+variable "vpc_region" {
   description = "The region where the network will be created"
-  type        = string
 }
 
-variable "subnets" {
+variable "vpc_subnets" {
   description = "A list of subnets"
   type = list(object({
     name = string

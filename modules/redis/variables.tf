@@ -1,24 +1,30 @@
-variable "service_name" {
-  description = "Nome do serviço Cloud Run"
+variable "redis_name" {
+  description = "Redis service name"
 }
 
-variable "service_region" {
-  description = "Região do Google Cloud Platform"
+variable "redis_region" {
+  description = "Redis region"
 }
 
-variable "is_prd_enviroment" {
-  description = "Se o ambiente é de produção ou não"
-  type        = bool
+variable "redis_tier" {
+  description = "Redis tier"
+}
+
+variable "redis_memory_size_gb" {
+  description = "Redis memory size in GB"
+  type        = number
+}
+
+variable "redis_vpc_id" {
+  description = "VPC ID"
 }
 
 variable "redis_version" {
-  description = "Versão do banco de dados"
+  description = "Redis version"
 }
 
 variable "redis_display_name" {
-  description = "Nome de exibição do banco de dados"
+  description = "Redis display name"
 }
 
-variable "vpc_id" {
-  description = "ID da VPC"
-}
+

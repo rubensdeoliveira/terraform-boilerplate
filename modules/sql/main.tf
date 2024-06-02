@@ -1,14 +1,14 @@
 resource "google_sql_database_instance" "sql" {
-  name             = "${var.service_name}-${terraform.workspace}"
-  database_version = var.postgres_version
-  region           = var.service_region
+  name             = var.postgres_name
+  database_version = var.postgres_database_version
+  region           = var.postgres_region
 
   settings {
-    tier = var.is_prd_enviroment ? "db-g1-small" : "db-f1-micro"
+    tier = var.postgres_tier
 
     ip_configuration {
       ipv4_enabled    = true
-      private_network = var.vpc_self_link
+      private_network = var.postgres_vpc_self_link
     }
   }
 }

@@ -13,15 +13,15 @@ output "vpc_id" {
   value       = google_compute_network.vpc.id
 }
 
-output "subnets" {
+output "vpc_subnets" {
   description = "List of subnets"
   value       = google_compute_subnetwork.subnetwork
 }
 
-output "subnet1_connector" {
+output "vpc_subnet1_connector" {
   value = google_vpc_access_connector.subnet1_connector.name
 }
 
-output "subnet2_connector" {
+output "vpc_subnet2_connector" {
   value = google_vpc_access_connector.subnet2_connector.name
 }

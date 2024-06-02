@@ -1,32 +1,31 @@
-variable "service_name" {
-  description = "Nome do serviço Cloud Run"
+variable "postgres_name" {
+  description = "Name of the PostgreSQL instance"
 }
 
-variable "service_region" {
-  description = "Região do Google Cloud Platform"
+variable "postgres_database_version" {
+  description = "Version of the PostgreSQL database"
 }
 
-variable "postgres_version" {
-  description = "Versão do PostgreSQL"
+variable "postgres_region" {
+  description = "Region where the PostgreSQL instance will be deployed"
 }
 
-variable "is_prd_enviroment" {
-  description = "Se o ambiente é de produção ou não"
-  type        = bool
+variable "postgres_tier" {
+  description = "Tier of the PostgreSQL instance"
 }
 
-variable "vpc_self_link" {
-  description = "Link para a VPC"
+variable "postgres_vpc_self_link" {
+  description = "Self-link of the VPC network for the PostgreSQL instance"
 }
 
 variable "postgres_db" {
-  description = "Nome do banco de dados"
+  description = "Name of the PostgreSQL database"
 }
 
 variable "postgres_user" {
-  description = "Nome do usuário do banco de dados"
+  description = "Username for accessing the PostgreSQL database"
 }
 
 variable "postgres_password" {
-  description = "Senha do usuário do banco de dados"
+  description = "Password for accessing the PostgreSQL database"
 }
