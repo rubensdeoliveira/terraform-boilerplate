@@ -86,6 +86,8 @@ module "cloud_runs" {
   cloud_run_port                          = each.value.port
   cloud_run_allowed_service_account_ids   = each.value.allowed_service_account_ids
   cloud_run_associated_service_account_id = each.value.associated_service_account_id
+  cloud_run_min_instances                 = each.value.min_instances
+  cloud_run_max_instances                 = each.value.max_instances
   cloud_run_allow_all_users               = each.value.allow_all_users
   cloud_run_env = each.value.add_database_url == true ? concat(each.value.env, [
     {

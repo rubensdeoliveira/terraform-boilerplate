@@ -39,6 +39,14 @@ variable "cloud_run_associated_service_account_id" {
   description = "Service account associated with the Cloud Run service"
 }
 
+variable "cloud_run_min_instances" {
+  description = "Minimum number of instances for the Cloud Run service"
+}
+
+variable "cloud_run_max_instances" {
+  description = "Minimum number of instances for the Cloud Run service"
+}
+
 variable "cloud_run_allow_all_users" {
   description = "Allow all users to access the Cloud Run service"
   type        = bool

@@ -16,6 +16,8 @@ resource "google_cloud_run_service" "run" {
       annotations = {
         "run.googleapis.com/vpc-access-connector" : var.cloud_run_subnet1_connector
         "run.googleapis.com/vpc-access-egress" : "private-ranges-only"
+        "autoscaling.knative.dev/minScale" = var.cloud_run_min_instances
+        "autoscaling.knative.dev/maxScale" = var.cloud_run_max_instances
       }
     }
     spec {

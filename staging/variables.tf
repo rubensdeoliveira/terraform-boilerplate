@@ -93,6 +93,8 @@ variable "cloud_runs" {
     allowed_service_account_ids   = list(string)
     associated_service_account_id = string
     allow_all_users               = bool
+    min_instances                 = string
+    max_instances                 = string
     env = list(object({
       name  = string
       value = string
