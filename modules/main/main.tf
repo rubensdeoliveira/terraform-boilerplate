@@ -5,6 +5,14 @@ module "api" {
   api_services = var.api_services
 }
 
+# Service Account
+module "service_accounts" {
+  source = "../service-account"
+
+  service_account_accounts   = var.service_account_accounts
+  service_account_project_id = var.project_id
+}
+
 # Cloud Storage
 module "storage" {
   source = "../storage"
@@ -63,41 +71,28 @@ module "redis" {
 }
 
 # Cloud Run (backend)
-module "cloud_run_backends" {
+module "cloud_runs" {
   depends_on = [module.sql]
   source     = "../cloud-run"
 
-  for_each = { for i in var.cloud_run_backends : i.name => i }
+  for_each = { for i in var.cloud_runs : i.name => i }
 
-  cloud_run_location          = var.region
-  cloud_run_subnet1_connector = module.vpc.vpc_subnet1_connector
-  cloud_run_name              = each.value.name
-  cloud_run_docker_image      = each.value.docker_image
-  cloud_run_memory            = each.value.memory
-  cloud_run_cpu               = each.value.cpu
-  cloud_run_port              = each.value.port
-  cloud_run_env = concat(each.value.env, [
+  cloud_run_location                      = var.region
+  cloud_run_subnet1_connector             = module.vpc.vpc_subnet1_connector
+  cloud_run_name                          = each.value.name
+  cloud_run_docker_image                  = each.value.docker_image
+  cloud_run_memory                        = each.value.memory
+  cloud_run_cpu                           = each.value.cpu
+  cloud_run_port                          = each.value.port
+  cloud_run_allowed_service_account_ids   = each.value.allowed_service_account_ids
+  cloud_run_associated_service_account_id = each.value.associated_service_account_id
+  cloud_run_allow_all_users               = each.value.allow_all_users
+  cloud_run_env = each.value.add_database_url == true ? concat(each.value.env, [
     {
       name  = "DATABASE_URL"
       value = module.sql.database_url
     }
-  ])
-}
-
-# Cloud Run (frontend)
-module "cloud_run_frontends" {
-  source = "../cloud-run"
-
-  for_each = { for i in var.cloud_run_frontends : i.name => i }
-
-  cloud_run_location          = var.region
-  cloud_run_subnet1_connector = module.vpc.vpc_subnet1_connector
-  cloud_run_name              = each.value.name
-  cloud_run_docker_image      = each.value.docker_image
-  cloud_run_memory            = each.value.memory
-  cloud_run_cpu               = each.value.cpu
-  cloud_run_port              = each.value.port
-  cloud_run_env               = each.value.env
+  ]) : each.value.env
 }
 
 # Google Cloud Monitoring

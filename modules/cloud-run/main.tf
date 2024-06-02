@@ -1,3 +1,12 @@
+data "google_service_account" "allowed_service_accounts" {
+  for_each   = toset(var.cloud_run_allowed_service_account_ids)
+  account_id = each.value
+}
+
+data "google_service_account" "associated_service_account" {
+  account_id = var.cloud_run_associated_service_account_id
+}
+
 resource "google_cloud_run_service" "run" {
   name     = var.cloud_run_name
   location = var.cloud_run_location
@@ -32,6 +41,7 @@ resource "google_cloud_run_service" "run" {
           }
         }
       }
+      service_account_name = data.google_service_account.associated_service_account.email
     }
   }
 
@@ -42,12 +52,14 @@ resource "google_cloud_run_service" "run" {
 
 }
 
-data "google_iam_policy" "noauth" {
+locals {
+  members = var.cloud_run_allow_all_users ? ["allUsers"] : [for id in var.cloud_run_allowed_service_account_ids : "serviceAccount:${data.google_service_account.allowed_service_accounts[id].email}"]
+}
+
+data "google_iam_policy" "auth" {
   binding {
-    role = "roles/run.invoker"
-    members = [
-      "allUsers",
-    ]
+    role    = "roles/run.invoker"
+    members = local.members
   }
 }
 
@@ -56,5 +68,5 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   project  = google_cloud_run_service.run.project
   service  = google_cloud_run_service.run.name
 
-  policy_data = data.google_iam_policy.noauth.policy_data
+  policy_data = data.google_iam_policy.auth.policy_data
 }

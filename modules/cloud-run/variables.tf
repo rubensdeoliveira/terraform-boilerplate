@@ -27,6 +27,23 @@ variable "cloud_run_port" {
   type        = number
 }
 
+variable "cloud_run_allowed_service_account_ids" {
+  type        = list(string)
+  description = "Service accounts allowed to access the Cloud Run service"
+  default = [
+    "allUsers"
+  ]
+}
+
+variable "cloud_run_associated_service_account_id" {
+  description = "Service account associated with the Cloud Run service"
+}
+
+variable "cloud_run_allow_all_users" {
+  description = "Allow all users to access the Cloud Run service"
+  type        = bool
+}
+
 variable "cloud_run_env" {
   description = "Environment variables for the Cloud Run service"
   type = list(object({
