@@ -6,8 +6,9 @@ variable "cloud_run_location" {
   description = "Location where the Cloud Run service will be deployed"
 }
 
-variable "cloud_run_subnet1_connector" {
+variable "cloud_run_subnet_connector" {
   description = "Subnet connector for the Cloud Run service"
+  type        = string
 }
 
 variable "cloud_run_docker_image" {
@@ -27,14 +28,6 @@ variable "cloud_run_port" {
   type        = number
 }
 
-variable "cloud_run_allowed_service_account_ids" {
-  type        = list(string)
-  description = "Service accounts allowed to access the Cloud Run service"
-  default = [
-    "allUsers"
-  ]
-}
-
 variable "cloud_run_associated_service_account_id" {
   description = "Service account associated with the Cloud Run service"
 }
@@ -47,11 +40,6 @@ variable "cloud_run_max_instances" {
   description = "Minimum number of instances for the Cloud Run service"
 }
 
-variable "cloud_run_allow_all_users" {
-  description = "Allow all users to access the Cloud Run service"
-  type        = bool
-}
-
 variable "cloud_run_env" {
   description = "Environment variables for the Cloud Run service"
   type = list(object({
@@ -59,4 +47,13 @@ variable "cloud_run_env" {
     value = string
   }))
   default = []
+}
+
+variable "cloud_run_type" {
+  description = "Name of the VPC for the Cloud Run service"
+  type        = string
+  validation {
+    condition     = contains(["frontend", "backend"], var.cloud_run_type)
+    error_message = "The cloud_run_type must be either 'frontend' or 'backend'."
+  }
 }

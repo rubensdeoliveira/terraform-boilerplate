@@ -36,9 +36,8 @@ module "vpc" {
   depends_on = [module.api]
   source     = "../vpc"
 
-  vpc_region  = var.region
-  vpc_name    = var.vpc_name
-  vpc_subnets = var.vpc_subnets
+  vpc_region = var.region
+  vpc_name   = var.vpc_name
 }
 
 # Cloud SQL (postgres)
@@ -54,6 +53,7 @@ module "sql" {
   postgres_db               = var.postgres_db
   postgres_user             = var.postgres_user
   postgres_password         = var.postgres_password
+  postgres_can_destroy      = var.can_destroy_resources
 }
 
 # Memorystore for Redis
@@ -68,27 +68,27 @@ module "redis" {
   redis_memory_size_gb = var.redis_memory_size_gb
   redis_version        = var.redis_version
   redis_display_name   = var.redis_name
+  redis_can_destroy    = var.can_destroy_resources
 }
 
 # Cloud Run (backend)
 module "cloud_runs" {
-  depends_on = [module.sql]
+  depends_on = [module.sql, module.vpc, module.service_accounts]
   source     = "../cloud-run"
 
   for_each = { for i in var.cloud_runs : i.name => i }
 
   cloud_run_location                      = var.region
-  cloud_run_subnet1_connector             = module.vpc.vpc_subnet1_connector
+  cloud_run_subnet_connector              = module.vpc.vpc_subnet_connector
   cloud_run_name                          = each.value.name
   cloud_run_docker_image                  = each.value.docker_image
   cloud_run_memory                        = each.value.memory
   cloud_run_cpu                           = each.value.cpu
   cloud_run_port                          = each.value.port
-  cloud_run_allowed_service_account_ids   = each.value.allowed_service_account_ids
   cloud_run_associated_service_account_id = each.value.associated_service_account_id
   cloud_run_min_instances                 = each.value.min_instances
   cloud_run_max_instances                 = each.value.max_instances
-  cloud_run_allow_all_users               = each.value.allow_all_users
+  cloud_run_type                          = each.value.type
   cloud_run_env = each.value.add_database_url == true ? concat(each.value.env, [
     {
       name  = "DATABASE_URL"

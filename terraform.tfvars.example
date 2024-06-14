@@ -1,43 +1,93 @@
-project_id                = "projeto-id"
-project_name              = "projeto-nome"
-region                    = "us-central1"
-postgres_version          = "POSTGRES_13"
-postgres_db               = "db"
-postgres_user             = "user"
-postgres_password         = "password"
-production_workspace_name = "prd"
-docker_image = gcr.io/projeto-id/projeto-nome
-cloud_run_port            = 3000
-env_back = [
-  {
-    name  = "JWT_PRIVATE_KEY"
-    value = "ds"
-  },
-  {
-    name  = "JWT_PUBLIC_KEY"
-    value = "dfs"
-  },
-  {
-    name  = "JWT_TOKEN_EXPIRES_IN"
-    value = "30d"
-  },
-  {
-    name  = "JWT_REFRESH_TOKEN_EXPIRES_IN"
-    value = "1d"
-  },
-  {
-    name  = "JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS"
-    value = 30
-  },
+# API
+api_services = [
+  "example-api-service-1",
+  "example-api-service-2",
+  "example-api-service-3"
 ]
-env_front = []
-vpc_subnets = [
+
+# Service Account
+service_account_accounts = [
   {
-    name = "sql-subnet"
-    cidr = "10.1.1.0/28"
+    id           = "example-service-account-1"
+    display_name = "Example Service Account 1"
+    roles = [
+      "roles/role1",
+      "roles/role2"
+    ]
   },
   {
-    name = "memorystory-subnet"
-    cidr = "10.1.2.0/28"
+    id           = "example-service-account-2"
+    display_name = "Example Service Account 2"
+    roles = [
+      "roles/role3",
+      "roles/role4"
+    ]
+  }
+]
+
+# Shared
+project_id            = "example-project-id"
+project_name          = "example-project"
+region                = "us-west1"
+can_destroy_resources = true
+environment           = "development"
+
+# Cloud SQL (postgres)
+postgres_database_version = "POSTGRES_12"
+postgres_tier             = "db-n1-standard-1"
+postgres_db               = "example-db"
+postgres_user             = "example-user"
+postgres_password         = "example-password"
+
+# Memorystore for Redis
+redis_tier           = "STANDARD_HA"
+redis_memory_size_gb = 2
+redis_version        = "REDIS_6_0"
+
+# Cloud Run
+cloud_runs = [
+  {
+    name                          = "example-backend"
+    docker_image                  = "gcr.io/example-project/example-backend"
+    memory                        = "1Gi"
+    associated_service_account_id = "example-service-account-1"
+    add_database_url              = true
+    cpu                           = "2.0"
+    port                          = 8080
+    min_instances                 = "1"
+    max_instances                 = "5"
+    type                          = "backend"
+    env = [
+      {
+        name  = "EXAMPLE_ENV_VAR_1"
+        value = "example-value-1"
+      },
+      {
+        name  = "EXAMPLE_ENV_VAR_2"
+        value = "example-value-2"
+      }
+    ]
+  },
+  {
+    name                          = "example-frontend"
+    docker_image                  = "gcr.io/example-project/example-frontend"
+    memory                        = "512Mi"
+    add_database_url              = false
+    associated_service_account_id = "example-service-account-2"
+    cpu                           = "1.0"
+    port                          = 3000
+    min_instances                 = "2"
+    max_instances                 = "5"
+    type                          = "frontend"
+    env = [
+      {
+        name  = "EXAMPLE_ENV_VAR_3"
+        value = "example-value-3"
+      },
+      {
+        name  = "EXAMPLE_ENV_VAR_4"
+        value = "example-value-4"
+      }
+    ]
   }
 ]

@@ -29,3 +29,8 @@ variable "postgres_user" {
 variable "postgres_password" {
   description = "Password for accessing the PostgreSQL database"
 }
+
+variable "postgres_can_destroy" {
+  description = "Can destroy the postgres or not"
+  type        = bool
+}

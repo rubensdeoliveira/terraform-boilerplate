@@ -3,32 +3,11 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_compute_subnetwork" "subnetwork" {
-  count         = length(var.vpc_subnets)
-  name          = element(var.vpc_subnets, count.index).name
-  ip_cidr_range = element(var.vpc_subnets, count.index).cidr
-  region        = var.vpc_region
-  network       = google_compute_network.vpc.name
-}
-
-resource "google_compute_firewall" "default" {
-  name    = "${var.vpc_name}-firewall"
-  network = google_compute_network.vpc.name
-
-  allow {
-    protocol = "icmp"
-  }
-
-  allow {
-    protocol = "tcp"
-    ports    = ["0-65535"]
-  }
-
-  allow {
-    protocol = "udp"
-    ports    = ["0-65535"]
-  }
-
-  source_ranges = ["10.0.0.0/8"]
+  name                     = "subnet-backend"
+  ip_cidr_range            = "10.0.0.0/16"
+  region                   = var.vpc_region
+  network                  = google_compute_network.vpc.name
+  private_ip_google_access = true
 }
 
 resource "google_compute_global_address" "private_ip_address" {
@@ -45,18 +24,10 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
 }
 
-resource "google_vpc_access_connector" "subnet1_connector" {
-  name   = "subnet1-connector"
-  region = var.vpc_region
-  subnet {
-    name = element(google_compute_subnetwork.subnetwork.*.name, 0)
-  }
+resource "google_vpc_access_connector" "subnet_connector" {
+  name          = "subnet-connector-backend"
+  network       = google_compute_network.vpc.name
+  region        = var.vpc_region
+  ip_cidr_range = "10.8.0.0/28"
 }
 
-resource "google_vpc_access_connector" "subnet2_connector" {
-  name   = "subnet2-connector"
-  region = var.vpc_region
-  subnet {
-    name = element(google_compute_subnetwork.subnetwork.*.name, 1)
-  }
-}

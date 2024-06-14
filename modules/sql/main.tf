@@ -11,6 +11,8 @@ resource "google_sql_database_instance" "sql" {
       private_network = var.postgres_vpc_self_link
     }
   }
+
+  deletion_protection = var.postgres_can_destroy ? false : true
 }
 
 resource "google_sql_database" "db" {

@@ -10,7 +10,6 @@ module "main" {
   storage_name              = "${var.project_name}-storage-${var.enviroment}"
   firestore_name            = "${var.project_name}-firestore-${var.enviroment}"
   vpc_name                  = "${var.project_name}-vpc-${var.enviroment}"
-  vpc_subnets               = var.vpc_subnets
   postgres_name             = "${var.project_name}-postgres-${var.enviroment}"
   postgres_database_version = var.postgres_database_version
   postgres_tier             = var.postgres_tier

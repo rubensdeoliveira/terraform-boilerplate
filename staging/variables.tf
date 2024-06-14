@@ -36,15 +36,6 @@ variable "enviroment" {
   description = "Enviroment of the Google Cloud Platform"
 }
 
-# VPC and subnets
-variable "vpc_subnets" {
-  description = "A list of subnets"
-  type = list(object({
-    name = string
-    cidr = string
-  }))
-}
-
 # Cloud SQL (postgres)
 variable "postgres_database_version" {
   description = "Version of the PostgreSQL database"
@@ -90,11 +81,10 @@ variable "cloud_runs" {
     add_database_url              = bool
     cpu                           = number
     port                          = number
-    allowed_service_account_ids   = list(string)
     associated_service_account_id = string
-    allow_all_users               = bool
     min_instances                 = string
     max_instances                 = string
+    type                          = string
     env = list(object({
       name  = string
       value = string

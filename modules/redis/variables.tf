@@ -27,4 +27,7 @@ variable "redis_display_name" {
   description = "Redis display name"
 }
 
-
+variable "redis_can_destroy" {
+  description = "Can destroy the redis or not"
+  type        = bool
+}

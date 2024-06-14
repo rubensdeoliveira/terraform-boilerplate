@@ -43,14 +43,6 @@ variable "vpc_name" {
   description = "Name of the VPC"
 }
 
-variable "vpc_subnets" {
-  description = "A list of subnets"
-  type = list(object({
-    name = string
-    cidr = string
-  }))
-}
-
 # Cloud SQL (postgres)
 variable "postgres_name" {
   description = "Name of the PostgreSQL instance"
@@ -104,11 +96,10 @@ variable "cloud_runs" {
     add_database_url              = bool
     cpu                           = number
     port                          = number
-    allowed_service_account_ids   = list(string)
     associated_service_account_id = string
-    allow_all_users               = bool
     min_instances                 = string
     max_instances                 = string
+    type                          = string
     env = list(object({
       name  = string
       value = string

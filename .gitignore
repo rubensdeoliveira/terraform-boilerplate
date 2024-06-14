@@ -2,4 +2,4 @@
 
 *.tfvars
 *.tfstate
-*.tfstate.backup
+*.backup
