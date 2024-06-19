@@ -5,10 +5,10 @@ terraform {
       version = "5.29.1"
     }
   }
-  backend "gcs" {
-    bucket = "flow-roll-state-production"
-    prefix = "terraform"
-  }
+  # backend "gcs" {
+  #   bucket = "flow-roll-state-staging"
+  #   prefix = "terraform"
+  # }
 }
 
 provider "google" {
