@@ -5,13 +5,18 @@ terraform {
       version = "5.29.1"
     }
   }
-  backend "gcs" {
-    bucket = "flow-roll-state-production"
-    prefix = "terraform"
-  }
+  # backend "gcs" {
+  #   bucket = "flow-roll-state-staging"
+  #   prefix = "terraform"
+  # }
 }
 
 provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+provider "google-beta" {
   project = var.project_id
   region  = var.region
 }

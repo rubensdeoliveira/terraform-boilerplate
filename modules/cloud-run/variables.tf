@@ -1,3 +1,7 @@
+variable "cloud_run_project" {
+  description = "Project ID where the Cloud Run service will be deployed"
+}
+
 variable "cloud_run_name" {
   description = "Name of the Cloud Run service"
 }

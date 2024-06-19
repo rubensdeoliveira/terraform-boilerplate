@@ -6,7 +6,7 @@ terraform {
     }
   }
   # backend "gcs" {
-  #   bucket = "flow-roll-state-staging"
+  #   bucket = "flow-roll-state-stg"
   #   prefix = "terraform"
   # }
 }

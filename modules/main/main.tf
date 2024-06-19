@@ -80,6 +80,7 @@ module "cloud_runs" {
 
   cloud_run_location                      = var.region
   cloud_run_subnet_connector              = module.vpc.vpc_subnet_connector
+  cloud_run_project                       = var.project_id
   cloud_run_name                          = each.value.name
   cloud_run_docker_image                  = each.value.docker_image
   cloud_run_memory                        = each.value.memory

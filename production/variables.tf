@@ -4,6 +4,16 @@ variable "api_services" {
   description = "List of API services to enable"
 }
 
+# Service Account
+variable "service_account_accounts" {
+  description = "Service accounts for the Cloud Run service"
+  type = list(object({
+    id           = string
+    display_name = string
+    roles        = list(string)
+  }))
+}
+
 # Shared
 variable "project_id" {
   description = "Project ID"
@@ -24,15 +34,6 @@ variable "can_destroy_resources" {
 
 variable "enviroment" {
   description = "Enviroment of the Google Cloud Platform"
-}
-
-# VPC and subnets
-variable "vpc_subnets" {
-  description = "A list of subnets"
-  type = list(object({
-    name = string
-    cidr = string
-  }))
 }
 
 # Cloud SQL (postgres)
@@ -70,31 +71,20 @@ variable "redis_version" {
   description = "Redis version"
 }
 
-# Cloud Run (backend)
-variable "cloud_run_backends" {
+# Cloud Run
+variable "cloud_runs" {
   description = "List of Cloud Run configurations"
   type = list(object({
-    name         = string
-    docker_image = string
-    memory       = string
-    cpu          = number
-    port         = number
-    env = list(object({
-      name  = string
-      value = string
-    }))
-  }))
-}
-
-# Cloud Run (frontend)
-variable "cloud_run_frontends" {
-  description = "List of Cloud Run configurations"
-  type = list(object({
-    name         = string
-    docker_image = string
-    memory       = string
-    cpu          = number
-    port         = number
+    name                          = string
+    docker_image                  = string
+    memory                        = string
+    add_database_url              = bool
+    cpu                           = number
+    port                          = number
+    associated_service_account_id = string
+    min_instances                 = string
+    max_instances                 = string
+    type                          = string
     env = list(object({
       name  = string
       value = string
