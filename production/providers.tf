@@ -6,17 +6,12 @@ terraform {
     }
   }
   # backend "gcs" {
-  #   bucket = "flow-roll-state-staging"
+  #   bucket = "flow-roll-state-stg"
   #   prefix = "terraform"
   # }
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.region
-}
-
-provider "google-beta" {
   project = var.project_id
   region  = var.region
 }
