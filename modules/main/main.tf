@@ -29,6 +29,7 @@ module "firestore" {
 
   firestore_can_destroy = var.can_destroy_resources
   firestore_name        = var.firestore_name
+  firestore_location    = var.region
 }
 
 # VPC and subnets
@@ -96,5 +97,3 @@ module "cloud_runs" {
     }
   ]) : each.value.env
 }
-
-# Google Cloud Monitoring

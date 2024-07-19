@@ -7,7 +7,7 @@ module "main" {
   region                    = var.region
   project_id                = var.project_id
   can_destroy_resources     = var.can_destroy_resources
-  storage_name              = "${var.project_name}-storage-${var.enviroment}"
+  storage_name              = "${var.project_name}-storage-${var.enviroment}-2"
   firestore_name            = "${var.project_name}-firestore-${var.enviroment}"
   vpc_name                  = "${var.project_name}-vpc-${var.enviroment}"
   postgres_name             = "${var.project_name}-postgres-${var.enviroment}"

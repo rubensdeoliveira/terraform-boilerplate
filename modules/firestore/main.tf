@@ -1,6 +1,6 @@
 resource "google_firestore_database" "firestore" {
   name                              = var.firestore_name
-  location_id                       = "nam5"
+  location_id                       = var.firestore_location
   type                              = "FIRESTORE_NATIVE"
   concurrency_mode                  = "OPTIMISTIC"
   app_engine_integration_mode       = "DISABLED"

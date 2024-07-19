@@ -39,7 +39,7 @@ resource "google_cloud_run_service" "run" {
           }
         }
       }
-      service_account_name = data.google_service_account.associated_service_account.email
+      # service_account_name = data.google_service_account.associated_service_account.email
     }
   }
 
